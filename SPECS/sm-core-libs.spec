@@ -1,38 +1,54 @@
-%global package_speccommit cbbaa0098ff2aa9141c5967d0e1bafc5296abc73
-%global package_srccommit v0.13.1
+%global package_speccommit 1afbc219a0a4d9769f8d2258e05a6eb96d957905
+%global package_srccommit v1.0.1
 
-Name:    sm-core-libs
-Version: 0.13.1
+%global srcname sm-core-libs
+%global sum sm core libraries - SM common core libraries.
+%global pkgdesc \
+This package contains common core libraries for SM.
+
+Name:    %{srcname}
+Version: 1.0.1
 Release: 1%{?xsrel}%{?dist}
-Summary: sm core libraries - SM common core libraries.
+Summary: %{sum}
 
 License:        LGPL
 URL:            https://code.citrite.net/projects/XS/repos/sm-core-libs
-Source0: sm-core-libs-0.13.1.tar.gz
+Source0: sm-core-libs-1.0.1.tar.gz
 BuildArch:      noarch
 
-## Pull in the correct RPM macros for the distributon
-## (Any fedora which is still in support uses python3)
 %if 0%{?centos} > 7 || 0%{?rhel} > 7 || 0%{?fedora} > 0
-BuildRequires: python3-rpm-macros
-BuildRequires:  python3-setuptools
-BuildRequires: python-nose
-BuildRequires: python3-coverage
-%global py_sitelib %{python3_sitelib}
-%global __python %{__python3}
+BuildRequires:  python36-future
 %else
+BuildRequires:  python2-future
+%endif
+
+%description %{pkgdesc}
+
+
+%package -n python2-%{srcname}
+Summary:        %{sum}
+Provides:       python-%{srcname} = %{version}-%{release}
+Provides:       %{srcname}
+Obsoletes:      %{srcname} < 1.0.0
+Requires:        python2-future
+
 BuildRequires: python2-rpm-macros
-BuildRequires:  python2-setuptools
+BuildRequires: python2-setuptools
 BuildRequires: python-nose
 BuildRequires: python-coverage
 BuildRequires: python2-mock
-%global py_sitelib %{python2_sitelib}
-%global __python %{__python2}
-%endif
 
-%description
-This package contains common core libraries for SM.
+%description -n python2-%{srcname} %{pkgdesc}
 
+%package -n python%{python3_pkgversion}-%{srcname}
+Summary:        %{sum}
+Provides:       python%{python3_pkgversion}-%{srcname} = %{version}-%{release}
+Requires:       python36-future
+
+BuildRequires: python3-rpm-macros
+BuildRequires: python3-setuptools
+
+%description -n python%{python3_pkgversion}-%{srcname} %{pkgdesc}
 
 %prep
 %autosetup -p1
@@ -40,12 +56,13 @@ This package contains common core libraries for SM.
 
 %build
 sed -i "s/\(version='\)[^'\"]\+/\1%{version}-%{release}/g" setup.py
-%{__python} setup.py build
+%py2_build
+%py3_build
 
 %install
 sed -i "s/\(version='\)[^'\"]\+/\1%{version}-%{release}/g" setup.py
-%{__python} setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT
-
+%py2_install
+%py3_install
 
 %check
 tests/run_unit_tests.sh
@@ -53,10 +70,11 @@ cp .coverage %{buildroot}
 cp coverage.xml %{buildroot}
 cp -r htmlcov %{buildroot}/htmlcov
 
-%files
-%{py_sitelib}/sm/__init__.py*
-%{py_sitelib}/sm/core
-%{py_sitelib}/sm_core_libs-*.egg-info
+%files -n python2-%{srcname}
+%{python2_sitelib}/*
+
+%files -n python%{python3_pkgversion}-%{srcname}
+%{python3_sitelib}/*
 
 %package testresults
 Group:    System/Hypervisor
@@ -71,6 +89,12 @@ The package contains the build time test results for the SM core libs package
 /htmlcov
 
 %changelog
+* Thu Jul 07 2022 Mark Syms <mark.syms@citrix.com> - 1.0.1-1
+- CP-40107: Build python2 and python3 RPMs
+
+* Thu Jun 30 2022  <mark.syms@citrix.com> - 1.0.0-1%{?dist}
+- Make Python3 compatible rpm
+
 * Fri Feb 11 2022 Mark Syms <mark.syms@citrix.com> - 0.13.1-1
 - CA-363533: rescan when requested and refcounts are > 1
 
