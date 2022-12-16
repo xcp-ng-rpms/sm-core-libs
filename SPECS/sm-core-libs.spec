@@ -22,11 +22,6 @@ BuildRequires:  python36-future
 BuildRequires:  python2-future
 %endif
 
-# XCP-ng: in XS's build system, epel-rpm-macros is installed by default and pulls python-rpm-macros
-# which happens to be needed by python2-rpm-macros and python3-rpm-macros below.
-# Explicitly require it.
-BuildRequires:  python-rpm-macros
-
 %description %{pkgdesc}
 
 
