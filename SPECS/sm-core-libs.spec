@@ -1,5 +1,5 @@
-%global package_speccommit 1afbc219a0a4d9769f8d2258e05a6eb96d957905
-%global package_srccommit v1.0.1
+%global package_speccommit 5ffb6a88fbcd9a6ac9e5faad548be3eb65820b2c
+%global package_srccommit v1.0.2
 
 %global srcname sm-core-libs
 %global sum sm core libraries - SM common core libraries.
@@ -7,13 +7,13 @@
 This package contains common core libraries for SM.
 
 Name:    %{srcname}
-Version: 1.0.1
+Version: 1.0.2
 Release: 1%{?xsrel}%{?dist}
 Summary: %{sum}
 
 License:        LGPL
 URL:            https://code.citrite.net/projects/XS/repos/sm-core-libs
-Source0: sm-core-libs-1.0.1.tar.gz
+Source0: sm-core-libs-1.0.2.tar.gz
 BuildArch:      noarch
 
 %if 0%{?centos} > 7 || 0%{?rhel} > 7 || 0%{?fedora} > 0
@@ -89,6 +89,10 @@ The package contains the build time test results for the SM core libs package
 /htmlcov
 
 %changelog
+* Thu Oct 05 2023 Tim Smith <tim.smith@citrix.com> - 1.0.2-1
+- CP-40123 Fix encodings for python3
+- CP-40107: refcount files need to seek to 0 before reading
+
 * Thu Jul 07 2022 Mark Syms <mark.syms@citrix.com> - 1.0.1-1
 - CP-40107: Build python2 and python3 RPMs
 
