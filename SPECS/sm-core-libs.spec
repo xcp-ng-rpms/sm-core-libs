@@ -1,5 +1,5 @@
-%global package_speccommit 5ffb6a88fbcd9a6ac9e5faad548be3eb65820b2c
-%global package_srccommit v1.0.2
+%global package_speccommit 39f5a6b63a987d31fac7230e9b81401c59e4a202
+%global package_srccommit v1.1.0
 
 %global srcname sm-core-libs
 %global sum sm core libraries - SM common core libraries.
@@ -7,46 +7,26 @@
 This package contains common core libraries for SM.
 
 Name:    %{srcname}
-Version: 1.0.2
+Version: 1.1.0
 Release: 1%{?xsrel}%{?dist}
 Summary: %{sum}
 
 License:        LGPL
 URL:            https://code.citrite.net/projects/XS/repos/sm-core-libs
-Source0: sm-core-libs-1.0.2.tar.gz
+Source0: sm-core-libs-1.1.0.tar.gz
 BuildArch:      noarch
-
-%if 0%{?centos} > 7 || 0%{?rhel} > 7 || 0%{?fedora} > 0
-BuildRequires:  python36-future
-%else
-BuildRequires:  python2-future
-%endif
+BuildRequires:  python3-future
+BuildRequires:  python3-rpm-macros
+BuildRequires:  python3-coverage
+BuildRequires:  python3-setuptools
 
 %description %{pkgdesc}
 
 
-%package -n python2-%{srcname}
-Summary:        %{sum}
-Provides:       python-%{srcname} = %{version}-%{release}
-Provides:       %{srcname}
-Obsoletes:      %{srcname} < 1.0.0
-Requires:        python2-future
-
-BuildRequires: python2-rpm-macros
-BuildRequires: python2-setuptools
-BuildRequires: python-nose
-BuildRequires: python-coverage
-BuildRequires: python2-mock
-
-%description -n python2-%{srcname} %{pkgdesc}
-
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{sum}
 Provides:       python%{python3_pkgversion}-%{srcname} = %{version}-%{release}
-Requires:       python36-future
-
-BuildRequires: python3-rpm-macros
-BuildRequires: python3-setuptools
+Requires:       python3-future
 
 %description -n python%{python3_pkgversion}-%{srcname} %{pkgdesc}
 
@@ -56,12 +36,10 @@ BuildRequires: python3-setuptools
 
 %build
 sed -i "s/\(version='\)[^'\"]\+/\1%{version}-%{release}/g" setup.py
-%py2_build
 %py3_build
 
 %install
 sed -i "s/\(version='\)[^'\"]\+/\1%{version}-%{release}/g" setup.py
-%py2_install
 %py3_install
 
 %check
@@ -69,9 +47,6 @@ tests/run_unit_tests.sh
 cp .coverage %{buildroot}
 cp coverage.xml %{buildroot}
 cp -r htmlcov %{buildroot}/htmlcov
-
-%files -n python2-%{srcname}
-%{python2_sitelib}/*
 
 %files -n python%{python3_pkgversion}-%{srcname}
 %{python3_sitelib}/*
@@ -89,6 +64,12 @@ The package contains the build time test results for the SM core libs package
 /htmlcov
 
 %changelog
+* Mon Apr 15 2024 Mark Syms <mark.syms@citrix.com> - 1.1.0-1
+- CP-48720: Add support for checking LUN provisioning mode
+
+* Tue Jan 2 2024 Lin Liu <lin.liu@citrix.com> - 1.0.3-1
+- CP-46128: Remove nosetest and update unittest to py3
+
 * Thu Oct 05 2023 Tim Smith <tim.smith@citrix.com> - 1.0.2-1
 - CP-40123 Fix encodings for python3
 - CP-40107: refcount files need to seek to 0 before reading
