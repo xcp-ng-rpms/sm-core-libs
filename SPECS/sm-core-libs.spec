@@ -1,5 +1,5 @@
-%global package_speccommit 39f5a6b63a987d31fac7230e9b81401c59e4a202
-%global package_srccommit v1.1.0
+%global package_speccommit 801891f98b3e7e7695434706c49fcd1b6ed75424
+%global package_srccommit v1.1.1
 
 %global srcname sm-core-libs
 %global sum sm core libraries - SM common core libraries.
@@ -7,15 +7,14 @@
 This package contains common core libraries for SM.
 
 Name:    %{srcname}
-Version: 1.1.0
+Version: 1.1.1
 Release: 1%{?xsrel}%{?dist}
 Summary: %{sum}
 
 License:        LGPL
 URL:            https://code.citrite.net/projects/XS/repos/sm-core-libs
-Source0: sm-core-libs-1.1.0.tar.gz
+Source0: sm-core-libs-1.1.1.tar.gz
 BuildArch:      noarch
-BuildRequires:  python3-future
 BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-coverage
 BuildRequires:  python3-setuptools
@@ -26,7 +25,8 @@ BuildRequires:  python3-setuptools
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{sum}
 Provides:       python%{python3_pkgversion}-%{srcname} = %{version}-%{release}
-Requires:       python3-future
+Requires:       sm-fairlock >= 3.2.0
+
 
 %description -n python%{python3_pkgversion}-%{srcname} %{pkgdesc}
 
@@ -64,6 +64,9 @@ The package contains the build time test results for the SM core libs package
 /htmlcov
 
 %changelog
+* Thu May 30 2024 Mark Syms <mark.syms@citrix.com> - 1.1.1-1
+- Require FairLock to coordinate locking of device-mapper
+
 * Mon Apr 15 2024 Mark Syms <mark.syms@citrix.com> - 1.1.0-1
 - CP-48720: Add support for checking LUN provisioning mode
 
