@@ -1,5 +1,5 @@
-%global package_speccommit 801891f98b3e7e7695434706c49fcd1b6ed75424
-%global package_srccommit v1.1.1
+%global package_speccommit c83e274d9b2ae0c10ce7fe1cadf83be3cef23aa4
+%global package_srccommit v1.1.2
 
 %global srcname sm-core-libs
 %global sum sm core libraries - SM common core libraries.
@@ -7,13 +7,13 @@
 This package contains common core libraries for SM.
 
 Name:    %{srcname}
-Version: 1.1.1
+Version: 1.1.2
 Release: 1%{?xsrel}%{?dist}
 Summary: %{sum}
 
 License:        LGPL
 URL:            https://code.citrite.net/projects/XS/repos/sm-core-libs
-Source0: sm-core-libs-1.1.1.tar.gz
+Source0: sm-core-libs-1.1.2.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-coverage
@@ -64,6 +64,10 @@ The package contains the build time test results for the SM core libs package
 /htmlcov
 
 %changelog
+* Thu Sep 26 2024 Mark Syms <mark.syms@cloud.com> - 1.1.2-1
+- CA-395560 Log exception details when LUN refresh fails
+- CA-399713: use correct lock name
+
 * Thu May 30 2024 Mark Syms <mark.syms@citrix.com> - 1.1.1-1
 - Require FairLock to coordinate locking of device-mapper
 
