@@ -1,5 +1,5 @@
-%global package_speccommit c83e274d9b2ae0c10ce7fe1cadf83be3cef23aa4
-%global package_srccommit v1.1.2
+%global package_speccommit f83dce5d21ac90f5260eff5c2011a0db0a0debad
+%global package_srccommit v1.1.5
 
 %global srcname sm-core-libs
 %global sum sm core libraries - SM common core libraries.
@@ -7,13 +7,13 @@
 This package contains common core libraries for SM.
 
 Name:    %{srcname}
-Version: 1.1.2
+Version: 1.1.5
 Release: 1%{?xsrel}%{?dist}
 Summary: %{sum}
 
 License:        LGPL
 URL:            https://code.citrite.net/projects/XS/repos/sm-core-libs
-Source0: sm-core-libs-1.1.2.tar.gz
+Source0: sm-core-libs-1.1.5.tar.gz
 BuildArch:      noarch
 BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-coverage
@@ -64,6 +64,14 @@ The package contains the build time test results for the SM core libs package
 /htmlcov
 
 %changelog
+* Mon Jun 16 2025 Mark Syms <mark.syms@cloud.com> - 1.1.5-1
+- CA-412336: treat inaccessible device as a soft failure
+
+* Tue Mar 04 2025 Mark Syms <mark.syms@cloud.com> - 1.1.3-1
+- CP-53439 Get exception messages correctly for Python3
+- CA-395560 Improve logging and error checking on sg_readcap
+- CP-53783: use os.path.realpath instead of incorrect internal
+
 * Thu Sep 26 2024 Mark Syms <mark.syms@cloud.com> - 1.1.2-1
 - CA-395560 Log exception details when LUN refresh fails
 - CA-399713: use correct lock name
